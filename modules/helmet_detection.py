@@ -1,6 +1,6 @@
 from ultralytics import YOLO
 
-model = YOLO("models/bao_hiem.pt")
+model = YOLO("models/bao_hiem_n.pt")
 
 
 def predictHelmet(frame):

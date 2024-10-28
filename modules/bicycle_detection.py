@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import numpy as np
 
-model = YOLO("models/yolo11n.pt")
+model = YOLO("models/yolo11m.pt")
 
 
 def predictPersonMotor(frame):

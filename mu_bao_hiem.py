@@ -344,13 +344,14 @@ class CameraApp(tk.Tk):
                     boxes, labels = resultBike
                     for box, label in zip(boxes, labels):
                         x_min, y_min, x_max, y_max = box
+                        xmin1,ymin1,xmax1,ymax1 = box
                         cropped = frame[y_min:y_max, x_min:x_max]
                         resultHelmet = predictHelmet(cropped)
                         if resultHelmet:
                             boxesHelmet, labelsHelmet = resultHelmet
-                            for labelHelmet in labelsHelmet:
+                            for boxHelmet,labelHelmet in zip(boxesHelmet,labelsHelmet):
                                 if labelHelmet == 0:
-                                    threading.Thread(target=self.play_doi_mu).start()
+                                    # threading.Thread(target=self.play_doi_mu).start()
                                     threading.Thread(
                                         target=send_telegram_message,
                                         args=("Học sinh không đội mũ",),
@@ -358,7 +359,16 @@ class CameraApp(tk.Tk):
                                     threading.Thread(
                                         target=send_telegram_photo, args=(frame,)
                                     ).start()
-
+                                xmin2,ymin2,xmax2,ymax2 = boxHelmet
+                                w = xmax2-xmin2
+                                h = ymax2-ymin2
+                                xmin3 = xmin1+xmin2
+                                xmax3 = xmin3+w
+                                ymin3 = ymin1+ymin2
+                                ymax3 = ymin3+h
+                                cv2.rectangle(frame, (xmin3, ymin3), (xmax3, ymax3), (255, 255, 0), 2)
+                                
+                                
                                 cv2.putText(
                                     frame,
                                     classes[labelHelmet],
